@@ -82,7 +82,7 @@ balloon-pop/
 - Before video: gameplay showing the click-detection bug
 - After video: gameplay showing the fix and all new features
 - Updated code
-- Chat history (link and PDF/doc export)
+- Chat history (link and PDF/doc export)(link- https://chatgpt.com/share/6abd1621-5f98-83ee-8842-1d918fa5a5ad)
 
 ## Tools Used
 

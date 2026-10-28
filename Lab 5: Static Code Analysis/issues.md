@@ -3,7 +3,7 @@
 | # | Issue | Type | Tool / Code | Severity | Line(s) | Description | Fix Approach |
 |---|-------|------|-------------|----------|---------|-------------|--------------|
 | 1 | Unsafe deserialization with pickle | Security | Bandit B301, B403 | Medium | 2, 44, 49 | `pickle.load` can execute arbitrary code if the backup file is tampered with | Replace pickle with JSON for backup/restore; convert keys back to int on restore |
-| 2 | try/except/pass hides errors | Security / Bug | Bandit B110, Pylint W0702, Flake8 E722 | Low (Bandit) / Warning | 22–25 | Bare `except: pass` silently ignores all errors (e.g. updating nonexistent order 42) | Catch only `KeyError` and raise a clear error instead of passing |
+| 2 | try/except/pass hides errors | Security / Bug | Bandit B110, Pylint W0702, Flake8 E722 | Low (Bandit) / Warning | 22–25 | Bare `except: pass` silently ignores all errors (e.g. updating nonexistent order 42) | Catch only `KeyError` and print a clear "order not found" message instead of passing silently |
 | 3 | Mutable default argument | Bug | Pylint W0102 | Warning | 11 | `order_history=[]` is shared across every call | Default to `None` and create a new list inside the function |
 | 4 | Too broad exception | Bug | Pylint W0718 | Warning | 32 | `except Exception` hides unexpected errors while loading the menu | Catch only `FileNotFoundError` and `json.JSONDecodeError` |
 | 5 | Files not closed / no encoding | Resource leak | Pylint R1732, W1514 | Refactor / Warning | 30, 43, 49 | Files opened without `with`, some never closed; no encoding given | Use `with open(..., encoding="utf-8")` |

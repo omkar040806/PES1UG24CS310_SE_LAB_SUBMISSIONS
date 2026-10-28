@@ -19,6 +19,7 @@ PES1UG24CS310_SE_LAB_SUBMISSIONS/
 ├── Lab 2: Jira hands on – Agile Backlog Creation & Sprint Simulations/
 ├── Lab 3: Component Modelling & Architectural Pattern Selection/
 ├── Lab 4: VibeCoding/
+├── Lab 5: Static Code Analysis/
 └── README.md
 ```
 
@@ -60,6 +61,37 @@ cd "Lab 4: VibeCoding/balloon-pop"
 pip install -r requirements.txt
 python main.py
 ```
+### Lab 5: Static Code Analysis
+Used **Pylint**, **Bandit** and **Flake8** to find and fix quality, security and style issues in a **Food Delivery Order Queue Manager** script (assigned repo: `L5_05_food_delivery`).
+
+- **Security fixed:** replaced unsafe `pickle` backup/restore with JSON (Bandit B301/B403) and removed a silent `try/except/pass` (B110)
+- **Quality fixed:** mutable default argument, broad and bare `except`, files opened without `with`, `global` statements, naming and missing docstrings
+- **Logic bugs found by running the program:** invalid statuses such as "teleported" were accepted, unknown dishes silently cost 99, and empty orders were created and marked delivered
+- **Results:** Pylint 6.27 → **10.00/10**, Flake8 12 → **0** issues, Bandit 1 Medium + 2 Low → **0**
+- `delivery_system.py`: cleaned source code
+- `issues.md`: table of the 14 issues found and how each was fixed
+- `reflection.md`: answers to the reflection questions
+- `*_report_before.txt` and `*_report.txt`: tool reports before and after the fixes
+
+To run the program and the tools:
+
+````bash
+cd "Lab 5: Static Code Analysis"
+pip install pylint bandit flake8
+python delivery_system.py
+pylint delivery_system.py
+````
+
+The intro line near the top says *"Lab 4 is a separate Python game project."* If you want Lab 5 mentioned there too, change it to *"Lab 4 is a separate Python game project, and Lab 5 is a static code analysis exercise."* This is optional.
+
+Then commit from the repo's root folder in the Codespace:
+
+````bash
+cd /workspaces/PES1UG24CS310_SE_LAB_SUBMISSIONS
+git add README.md
+git commit -m "Add Lab 5 to README"
+git push
+````
 
 ## Notes
 

@@ -70,7 +70,6 @@ Used **Pylint**, **Bandit** and **Flake8** to find and fix quality, security and
 - **Results:** Pylint 6.27 → **10.00/10**, Flake8 12 → **0** issues, Bandit 1 Medium + 2 Low → **0**
 - `delivery_system.py`: cleaned source code
 - `issues.md`: table of the 14 issues found and how each was fixed
-- `reflection.md`: answers to the reflection questions
 - `*_report_before.txt` and `*_report.txt`: tool reports before and after the fixes
 
 To run the program and the tools:

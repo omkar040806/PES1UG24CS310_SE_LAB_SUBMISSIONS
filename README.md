@@ -9,7 +9,7 @@ Software Engineering lab submissions.
 | **Semester / Section** | V / 5F |
 | **Course** | Software Engineering |
 
-Labs 1 to 3 use one running case study, **Problem Statement #05: Academic Elective Bidding & Allocation System**. Lab 4 is a separate Python game project.
+Labs 1 to 3 use one running case study, **Problem Statement #05: Academic Elective Bidding & Allocation System**. Lab 4 is a separate Python game project. Labs 5 and 6 each work on a separate assigned Python program.
 
 ## Repository Structure
 
@@ -20,6 +20,7 @@ PES1UG24CS310_SE_LAB_SUBMISSIONS/
 ├── Lab 3: Component Modelling & Architectural Pattern Selection/
 ├── Lab 4: VibeCoding/
 ├── Lab 5: Static Code Analysis/
+├── Lab 6: Code & Branch Coverage Analysis/
 └── README.md
 ```
 
@@ -81,15 +82,28 @@ python delivery_system.py
 pylint delivery_system.py
 ````
 
-The intro line near the top says *"Lab 4 is a separate Python game project."* If you want Lab 5 mentioned there too, change it to *"Lab 4 is a separate Python game project, and Lab 5 is a static code analysis exercise."* This is optional.
+### Lab 6: Code & Branch Coverage Analysis
+Used **coverage.py** with **pytest** to measure and improve test coverage for a **Blood Donation Screening** module (assigned repo: `L6_L7_05_blood_donation_screening`). The module screens donor cohorts by age, weight and hemoglobin, and checks centrifuge runs for RPM drops.
 
-Then commit from the repo's root folder in the Codespace:
+- **Starting point:** the single starter test reached 47% line and 43% branch coverage, and never called `verify_storage_centrifuge`
+- **Line vs. branch:** the code coverage tests run every line (100%) but still miss one branch, `26->15`: a low-hemoglobin donor in a *standard* cohort, where screening carries on instead of stopping. The branch coverage tests add this case along with boundary values (age 17, weight 50 kg, Hb 12.5 and 18.0, 3000 rpm, exactly 4 deferrals), empty donor lists, empty centrifuge runs and missing dictionary keys
+- **Results:** line coverage 47% → **100%** (11 tests); branch coverage 43% → **100%**, 32/32 branches (38 tests)
+- **Observation:** a low-hemoglobin donor in a `high_altitude` cohort resets the *running* total to 0, which also discards what earlier cohorts collected. A test records this behaviour
+- `blood_donation_screening.py`: module under test (unchanged)
+- `test_blood_donation.py`: starter test from the assigned repo
+- `CodeCoverageTest_PES1UG24CS310_application.py`: line coverage tests
+- `BranchCoverageTest_PES1UG24CS310_application.py`: branch coverage tests
+- `code_coverage.png` and `branch_coverage.png`: terminal screenshots of the coverage reports
+
+To run the tests and reports:
 
 ````bash
-cd /workspaces/PES1UG24CS310_SE_LAB_SUBMISSIONS
-git add README.md
-git commit -m "Add Lab 5 to README"
-git push
+cd "Lab 6: Code & Branch Coverage Analysis"
+pip install coverage pytest
+coverage run -m pytest CodeCoverageTest_PES1UG24CS310_application.py
+coverage report -m
+coverage run --branch -m pytest BranchCoverageTest_PES1UG24CS310_application.py
+coverage report -m
 ````
 
 ## Notes

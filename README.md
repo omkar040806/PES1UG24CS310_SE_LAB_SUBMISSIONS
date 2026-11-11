@@ -9,7 +9,7 @@ Software Engineering lab submissions.
 | **Semester / Section** | V / 5F |
 | **Course** | Software Engineering |
 
-Labs 1 to 3 use one running case study, **Problem Statement #05: Academic Elective Bidding & Allocation System**. Lab 4 is a separate Python game project. Labs 5 and 6 each work on a separate assigned Python program.
+Labs 1 to 3 use one running case study, **Problem Statement #05: Academic Elective Bidding & Allocation System**. Lab 4 is a separate Python game project. Labs 5, 6 and 7 each work on a separate assigned Python program.
 
 ## Repository Structure
 
@@ -21,6 +21,7 @@ PES1UG24CS310_SE_LAB_SUBMISSIONS/
 ├── Lab 4: VibeCoding/
 ├── Lab 5: Static Code Analysis/
 ├── Lab 6: Code & Branch Coverage Analysis/
+├── Lab 7: Fuzzing for Input Validation Bugs/
 └── README.md
 ```
 
@@ -105,7 +106,24 @@ coverage report -m
 coverage run --branch -m pytest BranchCoverageTest_PES1UG24CS310_application.py
 coverage report -m
 ````
+### Lab 7: Fuzzing for Input Validation Bugs
+Used **Hypothesis** property-based fuzzing with **pytest** to find and fix input validation bugs in a **Blood Donation Screening** processor (assigned repo: `L6_L7_05_blood_donation_screening`). The module validates ABO/Rh blood codes, calculates pulse pressure from a BP string and parses pipe-delimited donor records.
 
+- **Bugs found by fuzzing:** each of the 3 functions crashed on 3 distinct inputs, 9 in total. The crashes came from `None` (AttributeError), empty strings (IndexError / ValueError) and malformed input such as `'0'`, `'/'` and `'|'` (KeyError / ValueError)
+- **Other issues fixed while hardening:** `'XYZ+'` was accepted as a blood group, `'120/0'` raised ZeroDivisionError and huge numbers raised OverflowError. A diastolic higher than systolic gave a negative pulse pressure, and `'inf'` for weight and hemoglobin marked a donor Eligible. NaN values, negative weights, empty donor IDs and extra fields were also accepted
+- **Results:** 3 failed → **3 passed**. Every function now returns an "Invalid input" message instead of raising an exception
+- `processor.py`: fixed script
+- `test_processor.py`: completed Hypothesis tests (`st.text() | st.none()`, with try/except for each function)
+- `PES1UG24CS310_Lab7_FuzzTesting.pdf`: screenshots of each step
+
+To run the program and the tests:
+
+````bash
+cd "Lab 7: Fuzzing for Input Validation Bugs"
+pip install hypothesis pytest
+python processor.py
+python -m pytest test_processor.py
+````
 ## Notes
 
 - The Lab 4 commit history was imported from its original repository, so the individual commits for the fix and each feature are preserved in this repo's log.
